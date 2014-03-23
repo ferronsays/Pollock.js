@@ -72,6 +72,7 @@ Pollock = (function() {
     this.settings = {
       canvasID: null,
       clear: true,
+      fullscreen: false,
       mousemove: function(event) {},
       mousedown: function(event) {},
       mouseup: function(event) {},
@@ -84,6 +85,12 @@ Pollock = (function() {
     this.currentTime = new Date().getTime(); //current time, used to calculate dt
 
     this.canvas = document.getElementById(this.settings.canvasID);
+
+    if(this.settings.fullscreen)
+    {
+      this.canvas.width = window.innerWidth;
+      this.canvas.height = window.innerHeight;
+    }
 
     this.width = this.canvas.width;
     this.height = this.canvas.height;
@@ -121,6 +128,17 @@ Pollock = (function() {
     this.canvas.onmouseup = this.settings.mouseup;
     this.canvas.onclick = this.settings.click;
 
+    var that = this;
+    function doResize()
+    {
+      that.resize(); //i want 'this' to be Pollock, not the window
+    }
+    var endResize; //work this on a delay
+    window.onresize = function(e) {
+      clearTimeout(endResize);
+      endResize = setTimeout(doResize, 100);
+    };
+
     return this;
   };
 
@@ -138,6 +156,18 @@ Pollock = (function() {
   Pollock.prototype.disable = function() {
     window.cancelAnimFrame(this.animationFrame);
     return this;
+  };
+
+  Pollock.prototype.resize = function()
+  {
+    if(!this.settings.fullscreen)
+    return;
+
+    this.canvas.width = window.innerWidth;
+    this.canvas.height = window.innerHeight;
+
+    this.width = this.canvas.width;
+    this.height = this.canvas.height;
   };
 
   Pollock.prototype.addChild = function(obj) {
