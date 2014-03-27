@@ -41,8 +41,8 @@ Pollock = (function() {
     }
     return to;
   };
-  Pollock.randomPosNeg = function() {
-    return Math.random() * 2 - 1;
+  Pollock.randomNegativeOneToOne = function() {
+    return Math.random() * 2 - 1; //random number between 1 and -1
   };
   Pollock.degreesToRadians = function(degrees) {
     return (degrees * Math.PI) / 180;
@@ -92,8 +92,8 @@ Pollock = (function() {
       this.canvas.height = window.innerHeight;
     }
 
-    this.width = this.canvas.width;
-    this.height = this.canvas.height;
+    this.width = this.canvas.width = this.canvas.clientWidth;
+    this.height = this.canvas.height = this.canvas.clientHeight;
 
     this.context = this.canvas.getContext('2d');
 
