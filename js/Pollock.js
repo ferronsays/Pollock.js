@@ -73,6 +73,9 @@ Pollock = (function() {
       canvasID: null,
       clear: true,
       fullscreen: false,
+      resizable: true,
+      resizeTimeout: 0,
+      autoEnable: false,
       mousemove: function(event) {},
       mousedown: function(event) {},
       mouseup: function(event) {},
@@ -98,6 +101,9 @@ Pollock = (function() {
     this.context = this.canvas.getContext('2d');
 
     this.entities = [];
+
+    if(this.settings.autoEnable)
+      this.enable();
   };
 
   Pollock.prototype.getCanvasContext = function() {
@@ -136,7 +142,7 @@ Pollock = (function() {
     var endResize; //work this on a delay
     window.onresize = function(e) {
       clearTimeout(endResize);
-      endResize = setTimeout(doResize, 100);
+      endResize = setTimeout(doResize, that.settings.resizeTimeout);
     };
 
     return this;
@@ -160,8 +166,16 @@ Pollock = (function() {
 
   Pollock.prototype.resize = function()
   {
+    //keep in mind changing the canvas dimensions will wipe it clean!
     if(!this.settings.fullscreen)
-    return;
+    {
+      if(this.settings.resizable)
+      {
+        this.width = this.canvas.width = this.canvas.clientWidth;
+        this.height = this.canvas.height = this.canvas.clientHeight;
+      }
+      return;
+    }
 
     this.canvas.width = window.innerWidth;
     this.canvas.height = window.innerHeight;
