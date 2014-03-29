@@ -75,7 +75,7 @@ Pollock = (function() {
       fullscreen: false,
       resizable: true,
       resizeTimeout: 0,
-      autoEnable: false,
+      autoEnable: true,
       mousemove: function(event) {},
       mousedown: function(event) {},
       mouseup: function(event) {},
