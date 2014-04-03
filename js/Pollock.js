@@ -129,9 +129,9 @@ Pollock = (function() {
 
     this.animate(new Date().getTime());
 
-    this.canvas.onmousemove = this.settings.mousemove;
-    this.canvas.onmousedown = this.settings.mousedown;
-    this.canvas.onmouseup = this.settings.mouseup;
+    this.canvas.onmousemove = this.canvas.ontouchmove = this.settings.mousemove;
+    this.canvas.onmousedown = this.canvas.ontouchstart = this.settings.mousedown;
+    this.canvas.onmouseup = this.canvas.ontouchend = this.settings.mouseup;
     this.canvas.onclick = this.settings.click;
 
     var that = this;
